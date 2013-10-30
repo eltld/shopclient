@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.wy.shopping.http.ServiceResponse;
 import com.wy.shopping.http.serverce.ServiceFactory;
-import com.wy.shopping.serverce.PostService;
+import com.wy.shopping.service.PostService;
 import com.wy.shopping.tasks.BaseTask;
 
 public class TestConnectTask extends BaseTask<Integer, Void, ServiceResponse> {

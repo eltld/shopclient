@@ -56,7 +56,7 @@ public class ServiceInvocationHandler implements InvocationHandler {
 //			user = null;
 //		}
 		String sessionId = (user == null) ? "" : user.getSessionId();
-		param.put(Param.SESSION_ID, sessionId);
+		param.put(Param.SESSION_ID, "1111111111");
 		param.put(Param.APK_VERSION, "0.1");
 		Request request = httpCenter.createRequest();
 		Response response = request.post(Const.SERVER_URL, param);
