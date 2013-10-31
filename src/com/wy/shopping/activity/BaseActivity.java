@@ -13,7 +13,7 @@ import android.view.View;
 import android.widget.Toast;
 
 
-public abstract class BaseActivity extends FinalActivity {
+public class BaseActivity extends FinalActivity {
 
     protected BaseActivity activity = this;
 

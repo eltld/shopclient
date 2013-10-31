@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+     >
+    <android.support.v4.view.ViewPager 
+    	android:id="@+id/main_pager"
+    	android:layout_width="match_parent"
+    	android:layout_height="match_parent"
+    	android:flipInterval="30"
+    	android:layout_marginBottom="35dp"
+     />
+   <LinearLayout 
+        android:id="@+id/main_contain"
+        android:layout_width="fill_parent"
+        android:layout_height="35dp"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        >
+        <Button 
+            android:id="@+id/button1"
+            android:layout_width="fill_parent"
+            android:layout_height="35dp"
+            android:layout_weight="1"
+            android:text="按钮1"
+            android:textSize="16sp"/>
+        <Button 
+            android:id="@+id/button2"
+            android:layout_width="fill_parent"
+            android:layout_height="35dp"
+            android:layout_weight="1"
+             android:text="按钮2"
+            android:textSize="16sp"/>
+        <Button 
+            android:id="@+id/button3"
+            android:layout_width="fill_parent"
+            android:layout_height="35dp"
+            android:layout_weight="1"
+             android:text="按钮3"
+            android:textSize="16sp"/>
+        <Button 
+            android:id="@+id/button4"
+            android:layout_width="fill_parent"
+            android:layout_height="35dp"
+            android:layout_weight="1"
+             android:text="按钮4"
+            android:textSize="16sp"/>
+    </LinearLayout>
+    
+</RelativeLayout>
