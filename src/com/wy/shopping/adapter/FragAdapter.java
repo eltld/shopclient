@@ -16,8 +16,9 @@ public class FragAdapter extends FragmentPagerAdapter {
 	}
 
 	@Override
-	public Fragment getItem(int position) {
+	public synchronized Fragment getItem(int position) {
 		return data.get(position);
+		
 	}
 
 	@Override
@@ -34,5 +35,4 @@ public class FragAdapter extends FragmentPagerAdapter {
 		data.add(frag);
 		notifyDataSetChanged();
 	}
-
 }

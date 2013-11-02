@@ -53,7 +53,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener,
 	private StretchAnimation stretchanimation;
 
 	private static View tempView = null;
-	
+
 	@Override
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
@@ -135,15 +135,19 @@ public class MainActivity extends FragmentActivity implements OnClickListener,
 		List<Fragment> fragments = new ArrayList<Fragment>();
 		FirstFragment one = new FirstFragment();
 		one.setLayoutId(R.layout.main_frag_one);
+//		one.setContext(this);
 
 		FirstFragment two = new FirstFragment();
 		two.setLayoutId(R.layout.main_frag_two);
+//		two.setContext(this);
 
 		FirstFragment three = new FirstFragment();
 		three.setLayoutId(R.layout.main_frag_three);
+//		three.setContext(this);
 
 		FirstFragment four = new FirstFragment();
 		four.setLayoutId(R.layout.main_frag_three);
+//		four.setContext(this);
 
 		fragments.add(one);
 		fragments.add(two);
@@ -154,21 +158,21 @@ public class MainActivity extends FragmentActivity implements OnClickListener,
 		pager.setCurrentItem(0);
 
 		pager.setOnPageChangeListener(new OnPageChangeListener() {
-			
+
 			@Override
 			public void onPageSelected(int position) {
 				tempView = mainContain.getChildAt(position);
 				changeButton(tempView);
 			}
-			
+
 			@Override
 			public void onPageScrolled(int arg0, float arg1, int arg2) {
-				
+
 			}
-			
+
 			@Override
 			public void onPageScrollStateChanged(int arg0) {
-				
+
 			}
 		});
 	}
@@ -205,8 +209,8 @@ public class MainActivity extends FragmentActivity implements OnClickListener,
 		changeButton(tempView);
 
 	}
-	
-	private void changeButton(View tempView ){
+
+	private void changeButton(View tempView) {
 		if (tempView == preView) {
 			return;
 		} else {
