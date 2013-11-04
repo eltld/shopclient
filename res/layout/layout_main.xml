@@ -18,35 +18,37 @@
         android:layout_height="40dp"
         android:orientation="horizontal"
         android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+		android:layout_alignParentRight="true"
         >
         <Button 
             android:id="@+id/button1"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_weight="1"
-            android:text="按钮1"
-            android:textSize="16sp"/>
+            android:text="计生情趣"
+            android:textSize="18sp"/>
         <Button 
             android:id="@+id/button2"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_weight="1"
-             android:text="按钮2"
-            android:textSize="16sp"/>
+             android:text="新品"
+            android:textSize="18sp"/>
         <Button 
             android:id="@+id/button3"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_weight="1"
-             android:text="按钮3"
-            android:textSize="16sp"/>
+             android:text="团购"
+            android:textSize="18sp"/>
         <Button 
             android:id="@+id/button4"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_weight="1"
-             android:text="按钮4"
-            android:textSize="16sp"/>
+             android:text="个人"
+            android:textSize="18sp"/>
     </LinearLayout>
     
 </RelativeLayout>

@@ -56,7 +56,6 @@ public class FirstFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		context = getActivity();
-		
 	}
 
 	@Override
@@ -100,6 +99,7 @@ public class FirstFragment extends Fragment {
 			}
 		});
 		// 控制list展开的一项为最前面
+		list.expandGroup(0);
 		list.setOnGroupClickListener(new OnGroupClickListener() {
 
 			@Override
@@ -189,38 +189,13 @@ public class FirstFragment extends Fragment {
 
 	private List<List<HotelDetailVo>> getChildData() {
 		child = new ArrayList<List<HotelDetailVo>>();
-
-		List<HotelDetailVo> list0 = new ArrayList<HotelDetailVo>();
-
-		List<HotelDetailVo> list1 = new ArrayList<HotelDetailVo>();
-
-		List<HotelDetailVo> list2 = new ArrayList<HotelDetailVo>();
-
-		List<HotelDetailVo> list3 = new ArrayList<HotelDetailVo>();
-
-		List<HotelDetailVo> list4 = new ArrayList<HotelDetailVo>();
-
-		List<HotelDetailVo> list5 = new ArrayList<HotelDetailVo>();
-
-		for (int i = 0; i < 3; i++) {
-			HotelDetailVo vo = new HotelDetailVo();
-			vo.setAddress("地址");
-			vo.setName("名字");
-			vo.setPhoneNum("电话号码");
-			list0.add(vo);
-			list1.add(vo);
-			list3.add(vo);
-			list2.add(vo);
-			list4.add(vo);
-			list5.add(vo);
-
-			child.add(list0);
-			child.add(list1);
-			child.add(list2);
-			child.add(list3);
-			child.add(list4);
-			child.add(list5);
-		}
+			child.add(getChildren1());
+			child.add(getChildren2());
+			child.add(getChildren3());
+			child.add(getChildren4());
+			child.add(getChildren5());
+			child.add(getChildren6());
+			child.add(getChildren7());
 		return child;
 	}
 
@@ -231,22 +206,15 @@ public class FirstFragment extends Fragment {
 	 */
 	private List<String> getParentData() {
 		List<String> data = new ArrayList<String>();
-		data.add("商务宴请");
-		data.add("喜庆婚宴");
-		data.add("集体聚餐");
-		data.add("朋友聚餐");
-		data.add("家庭聚餐");
-		data.add("情侣约会");
+		data.add("避孕套");//新品，热卖，打折
+		data.add("性保健用品");//品牌男装，热卖，打折
+		data.add("妇科用药");
+		data.add("排卵验孕");
+		data.add("润滑剂");
+		data.add("避孕药");
+		data.add("延时持久");
 		return data;
 	}
-
-//	public Context getContext() {
-//		return context;
-//	}
-//
-//	public void setContext(Context context) {
-//		this.context = context;
-//	}
 
 	private void initTips() {
 		for (int i = 0; i < data.size(); i++) {
@@ -296,4 +264,118 @@ public class FirstFragment extends Fragment {
 		}
 	}
 
+	private List<HotelDetailVo> getChildren1(){
+		List<HotelDetailVo> items = new ArrayList<HotelDetailVo>();
+		HotelDetailVo v1 = new HotelDetailVo();
+		v1.setName("杜蕾斯");
+		HotelDetailVo v2 = new HotelDetailVo();
+		v2.setName("杰斯帮");
+		HotelDetailVo v3 = new HotelDetailVo();
+		v3.setName("多乐士");
+		HotelDetailVo v4 = new HotelDetailVo();
+		v4.setName("第六感");
+		HotelDetailVo v5 = new HotelDetailVo();
+		v5.setName("其他");
+		items.add(v1);
+		items.add(v2);
+		items.add(v3);
+		items.add(v4);
+		items.add(v5);
+		return items;
+	}
+	
+	private List<HotelDetailVo> getChildren2(){
+		List<HotelDetailVo> items = new ArrayList<HotelDetailVo>();
+		HotelDetailVo v1 = new HotelDetailVo();  
+		v1.setName("震动夹");
+		HotelDetailVo v2 = new HotelDetailVo();
+		v2.setName("起搏器  ");
+		HotelDetailVo v3 = new HotelDetailVo();
+		v3.setName("自慰器  ");
+		HotelDetailVo v4 = new HotelDetailVo();
+		v4.setName("震动环  ");
+		HotelDetailVo v5 = new HotelDetailVo();
+		v5.setName("跳蛋 ");
+		HotelDetailVo v6 = new HotelDetailVo();
+		v6.setName("震动器  ");
+		items.add(v1);
+		items.add(v2);
+		items.add(v3);
+		items.add(v4);
+		items.add(v5);
+		items.add(v6);
+		return items;
+	}
+	private List<HotelDetailVo> getChildren3(){
+		List<HotelDetailVo> items = new ArrayList<HotelDetailVo>();
+		HotelDetailVo v1 = new HotelDetailVo();  
+		v1.setName("中成药");
+		HotelDetailVo v2 = new HotelDetailVo();
+		v2.setName("西药 ");
+		items.add(v1);
+		items.add(v2);
+		return items;
+	}
+	private List<HotelDetailVo> getChildren4(){
+		List<HotelDetailVo> items = new ArrayList<HotelDetailVo>();
+		HotelDetailVo v1 = new HotelDetailVo();  
+		v1.setName("早孕试纸");
+		HotelDetailVo v2 = new HotelDetailVo();
+		v2.setName("排卵试纸");
+		items.add(v1);
+		items.add(v2);
+		return items;
+	}
+	private List<HotelDetailVo> getChildren5(){
+		List<HotelDetailVo> items = new ArrayList<HotelDetailVo>();
+		HotelDetailVo v1 = new HotelDetailVo();  
+		v1.setName("无香型");
+		HotelDetailVo v2 = new HotelDetailVo();
+		v2.setName("水果香型 ");
+		HotelDetailVo v3 = new HotelDetailVo();
+		v3.setName("花香型   ");
+		HotelDetailVo v4 = new HotelDetailVo();
+		v4.setName("其他 ");
+		items.add(v1);
+		items.add(v2);
+		items.add(v3);
+		items.add(v4);
+		return items;
+	}
+	private List<HotelDetailVo> getChildren6(){
+		List<HotelDetailVo> items = new ArrayList<HotelDetailVo>();
+		HotelDetailVo v1 = new HotelDetailVo();  
+		v1.setName("短效避孕  ");
+		HotelDetailVo v2 = new HotelDetailVo();
+		v2.setName("紧急避孕  ");
+		HotelDetailVo v3 = new HotelDetailVo();
+		v3.setName("外用避孕     ");
+		items.add(v1);
+		items.add(v2);
+		items.add(v3);
+		return items;
+	}
+	
+	private List<HotelDetailVo> getChildren7(){
+		List<HotelDetailVo> items = new ArrayList<HotelDetailVo>();
+		HotelDetailVo v1 = new HotelDetailVo();  
+		v1.setName("男用延時持久喷剂");
+		HotelDetailVo v2 = new HotelDetailVo();
+		v2.setName("延时持久难用湿巾");
+		HotelDetailVo v3 = new HotelDetailVo();
+		v3.setName("外用延时持久男用");
+		HotelDetailVo v4 = new HotelDetailVo();
+		v4.setName("延时持久男用不麻木");
+		HotelDetailVo v5 = new HotelDetailVo();
+		v5.setName("延时持久男用套");
+		HotelDetailVo v6 = new HotelDetailVo();
+		v6.setName("延时防早泄");
+		items.add(v1);
+		items.add(v2);
+		items.add(v3);
+		items.add(v4);
+		items.add(v5);
+		items.add(v6);
+		return items;
+	}
 }
