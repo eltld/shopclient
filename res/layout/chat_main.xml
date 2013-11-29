@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+   <EditText
+       android:id="@+id/input"
+       android:layout_width="fill_parent"
+       android:layout_height="200dp"
+       android:textSize="16sp"
+       />
+    <Button 
+        android:id="@+id/start"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:text="启动"
+        android:textSize="18sp"
+        />
+    <Button 
+        android:id="@+id/send"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:text="发送"
+        android:textSize="18sp"
+        />
+     <Button 
+        android:id="@+id/close"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:text="关闭"
+        android:textSize="18sp"
+        />
+       <EditText
+       android:id="@+id/showdata"
+       android:layout_width="fill_parent"
+       android:layout_height="100dp"
+       android:textSize="16sp"
+       />
+</LinearLayout>
