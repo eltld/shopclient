@@ -2,30 +2,28 @@ package com.wy.chatclient;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import android.widget.ListView;
+import android.app.Activity;
+import android.content.Intent;
 
-import com.wy.shopping.adapter.ChatAdapter;
 import com.wy.vo.Content;
+import com.wy.vo.User;
 
-public class ChatClientHandler extends SimpleChannelInboundHandler<Content> {
+public class ChatClientHandler extends SimpleChannelInboundHandler<Object> {
 
-    private ListView list;
+    private Activity act;
 
-    private ChatDeatailAct act;
-
-    public ChatClientHandler(ListView list, ChatDeatailAct act) {
-        this.list =list;
+    public ChatClientHandler(Activity act) {
         this.act = act;
     }
 
     @Override
-    protected void channelRead0(ChannelHandlerContext arg0, Content arg1) throws Exception {
-        
+    protected void channelRead0(ChannelHandlerContext arg0, Object msg) throws Exception {
+        System.out.println(msg);
     }
-    
+
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        System.out.println(cause.getMessage());
+        System.out.println(cause.getCause());
         ctx.close();
     }
 
@@ -36,15 +34,26 @@ public class ChatClientHandler extends SimpleChannelInboundHandler<Content> {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        final Content content = (Content) msg;
-        content.setTo(1);
-        act.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                ChatAdapter adapter=(ChatAdapter) list.getAdapter();
-                adapter.addItem(content, adapter.getCount());
-                list.setSelection(adapter.getCount()-1);
+        if (msg instanceof Content) {
+            final Content content = (Content) msg;
+            content.setSendMsg(false);
+            Intent intent = new Intent();
+            if (content.getHashCode() != 0) {
+                intent.setAction("singleMsg");
+            } else {
+                intent.setAction("allmsg");
             }
-        });
+            intent.putExtra("msg", content);
+            act.sendBroadcast(intent);
+        }
+        if (msg instanceof User) {
+            final User user = (User) msg;
+            Intent intent = new Intent();
+            intent.setAction("online");
+            intent.putExtra("user", user);
+            act.sendBroadcast(intent);
+        }
+
     }
+
 }

@@ -4,11 +4,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
     
-   <EditText
-       android:id="@+id/input"
+   <ListView
+       android:id="@+id/online"
        android:layout_width="fill_parent"
-       android:layout_height="200dp"
-       android:textSize="16sp"
+       android:layout_height="300dp"
+       android:background="#329e1c"
        />
     <Button 
         android:id="@+id/start"
@@ -31,10 +31,4 @@
         android:text="关闭"
         android:textSize="18sp"
         />
-       <EditText
-       android:id="@+id/showdata"
-       android:layout_width="fill_parent"
-       android:layout_height="100dp"
-       android:textSize="16sp"
-       />
 </LinearLayout>

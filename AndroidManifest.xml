@@ -32,7 +32,10 @@
             android:name="com.wy.shopping.activity.MainActivity"
            />
         <activity  
-            android:name="com.wy.chatclient.ChatDeatailAct"
+            android:name="com.wy.chatclient.ChatAllAct"
+           />
+        <activity  
+            android:name="com.wy.chatclient.ChatSingleAct"
            />
     </application>
 

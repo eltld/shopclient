@@ -12,6 +12,10 @@ import com.wy.vo.Content;
 
 public class ChatAdapter extends SimpleAdapter<Content> {
 
+    private int COME_MSG = 0;
+
+    private int SEND_MSG = 1;
+
     public ChatAdapter(List<Content> data, Context activity) {
         super(data, activity);
     }
@@ -19,14 +23,14 @@ public class ChatAdapter extends SimpleAdapter<Content> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         Content item = getItem(position);
-         Holder holder=null;
+        Holder holder = null;
         if (convertView == null) {
-            if (item.getTo() == 0) {
+            holder = new Holder();
+            if (item.isSendMsg()) {
                 convertView = makeView(R.layout.item_chat_send);
             } else {
                 convertView = makeView(R.layout.item_chat_receive);
             }
-            holder = new Holder();
             holder.msg = (TextView) convertView.findViewById(R.id.sender_msg);
             holder.name = (TextView) convertView.findViewById(R.id.sender_name);
             convertView.setTag(holder);
@@ -38,6 +42,22 @@ public class ChatAdapter extends SimpleAdapter<Content> {
             holder.name.setText(item.getName());
         }
         return convertView;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        Content item = getItem(position);
+        if (item.isSendMsg()) {
+            return SEND_MSG;
+        } else {
+            return COME_MSG;
+        }
+    }
+
+    @Override
+    public int getViewTypeCount() {
+        // 这个方法默认返回1，如果希望listview的item都是一样的就返回1，我们这里有两种风格，返回2
+        return 2;
     }
 
     private static class Holder {
