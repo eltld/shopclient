@@ -9,7 +9,7 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 
 import java.net.ConnectException;
-import java.util.ArrayList;
+import java.util.List;
 
 import net.tsz.afinal.annotation.view.ViewInject;
 import android.content.BroadcastReceiver;
@@ -23,7 +23,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.wy.shopping.R;
 import com.wy.shopping.activity.BaseActivity;
@@ -32,29 +31,22 @@ import com.wy.vo.User;
 
 public class ChatMainAct extends BaseActivity {
 
-    private static String IP = "192.168.1.84";
-    private static int PORT = 9527;
 
     private Button send, close, start;
-
-    public static Channel channel;
-
-    ChannelFuture lastWriteFuture = null;
-
-    EventLoopGroup group;
-
-    public static Bootstrap bootStrap;
 
     @ViewInject(id = R.id.online)
     private ListView onlineList;
 
     private OnlineAdapter adapter;
 
+    @SuppressWarnings("unchecked")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chat_main);
-        adapter = new OnlineAdapter(new ArrayList<User>(), this);
+        List<User> data = (List<User>) getVo("0");
+        System.out.println(data.toString());
+        adapter = new OnlineAdapter((List<User>) getVo("0"), this);
         onlineList.setAdapter(adapter);
         registerBoradcastReceiver(new UserOnlinReceiver());
 
@@ -65,24 +57,7 @@ public class ChatMainAct extends BaseActivity {
 
             @Override
             public void onClick(View v) {
-                group = new NioEventLoopGroup();
-                bootStrap = new Bootstrap();
-                bootStrap.group(group).channel(NioSocketChannel.class)
-                        .handler(new ChatClientInitializer(ChatMainAct.this));
-                bootStrap.option(ChannelOption.SO_KEEPALIVE, true);
-                bootStrap.option(ChannelOption.TCP_NODELAY, true);
-                bootStrap.option(ChannelOption.SO_REUSEADDR, true);
-                try {
-                    channel = bootStrap.connect(IP, PORT).sync().channel();
-                } catch (Exception e) {
-                   if(e instanceof ConnectException){
-                       toast("连接服务器失败");
-                   }
-                   System.err.println(e.fillInStackTrace());
-                }
-                if (channel != null && channel.isRegistered()) {
-                    setChannel(channel);
-                }
+                
 
             }
         });
@@ -101,10 +76,10 @@ public class ChatMainAct extends BaseActivity {
             public void onClick(View v) {
                 // channel.close().sync();
 //                group.shutdownGracefully();
-                User user = new User();
-                user.setName("xxx");
-                user.setChannelId(channel.hashCode());
-                skip(ChatSingleAct.class, user);
+//                User user = new User();
+//                user.setName("xxx");
+////                user.setChannelId(channel.hashCode());
+//                skip(ChatSingleAct.class, user);
             }
         });
         onlineList.setOnItemClickListener(new OnItemClickListener() {
@@ -115,14 +90,6 @@ public class ChatMainAct extends BaseActivity {
                 skip(ChatSingleAct.class, user);
             }
         });
-    }
-
-    public static Channel getChannel() {
-        return channel;
-    }
-
-    public static void setChannel(Channel channel) {
-        ChatMainAct.channel = channel;
     }
 
     class UserOnlinReceiver extends BroadcastReceiver {

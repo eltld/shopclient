@@ -48,7 +48,7 @@ public class ChatAllAct extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chat_detail);
-        channel = ChatMainAct.getChannel();
+        channel = LoginAct.getChannel();
         adapter = new ChatAdapter(new ArrayList<Content>(), activity);
         chatList.setAdapter(adapter);
         registerBoradcastReceiver(new msgBroadcastReceiver());

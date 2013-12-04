@@ -49,14 +49,11 @@ public class ChatSingleAct extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chat_detail);
-        channel = ChatMainAct.getChannel();
+        channel = LoginAct.getChannel();
         final User vo = (User) getVo("0");
         adapter = new ChatAdapter(new ArrayList<Content>(), activity);
-        
         chatList.setAdapter(adapter);
-        
         registerBoradcastReceiver(new msgBroadcastReceiver());
-        
         sendBtn.setOnClickListener(new OnClickListener() {
 
             @Override

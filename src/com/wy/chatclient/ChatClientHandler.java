@@ -3,6 +3,9 @@ package com.wy.chatclient;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import android.app.Activity;
+import android.app.ActivityManager;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 
 import com.wy.vo.Content;
@@ -45,6 +48,10 @@ public class ChatClientHandler extends SimpleChannelInboundHandler<Object> {
             }
             intent.putExtra("msg", content);
             act.sendBroadcast(intent);
+            ActivityManager am = (ActivityManager) act.getSystemService(Context.ACTIVITY_SERVICE);
+            ComponentName cn = am.getRunningTasks(1).get(0).topActivity;
+            System.out.println(cn.getClassName());
+            System.out.println(cn.toString());
         }
         if (msg instanceof User) {
             final User user = (User) msg;
