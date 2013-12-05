@@ -1,16 +1,21 @@
 package com.wy.chatclient;
 
-import java.net.ConnectException;
-
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
-import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.util.concurrent.Future;
+import io.netty.util.concurrent.GenericFutureListener;
+
+import java.net.ConnectException;
+
 import net.tsz.afinal.annotation.view.ViewInject;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -20,13 +25,13 @@ import com.wy.shopping.R;
 import com.wy.shopping.activity.BaseActivity;
 import com.wy.shopping.tasks.business.LoginTask;
 import com.wy.vo.Info;
+import com.wy.vo.User;
 
 public class LoginAct extends BaseActivity {
 
     private static String IP = "192.168.1.84";
     private static int PORT = 9527;
     public static Channel channel;
-    ChannelFuture lastWriteFuture = null;
     EventLoopGroup group;
     public static Bootstrap bootStrap;
 
@@ -56,7 +61,7 @@ public class LoginAct extends BaseActivity {
         });
         connectServer();
     }
-
+    
     public void connectServer() {
         group = new NioEventLoopGroup();
         bootStrap = new Bootstrap();
@@ -66,7 +71,6 @@ public class LoginAct extends BaseActivity {
         bootStrap.option(ChannelOption.SO_REUSEADDR, true);
         try {
             channel = bootStrap.connect(IP, PORT).sync().channel();
-            System.out.println(channel.toString());
         } catch (Exception e) {
             if (e instanceof ConnectException) {
                 toast("连接服务器失败");
@@ -78,7 +82,37 @@ public class LoginAct extends BaseActivity {
             setChannel(channel);
         }
     }
+    
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            new AlertDialog.Builder(this).setMessage("确定要退出吗?")
+                    .setNegativeButton("否",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog,int which) {
+                                }
+                            }).setPositiveButton("是",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog,int whichButton) {
+                                    User myInfo=new User();
+                                    myInfo.setChannelId(channel.hashCode());
+                                    myInfo.setName(null);
+                                    channel.writeAndFlush(myInfo).addListener(new GenericFutureListener<Future<? super Void>>() {
 
+                                        @Override
+                                        public void operationComplete(Future<? super Void> arg0) throws Exception {
+                                            channel.close().sync();
+                                            finish();
+                                        }
+                                    });
+                                }
+                            }).show();
+            return true;
+        } else {
+            return super.onKeyDown(keyCode, event);
+        }
+    }
+    
     public static Channel getChannel() {
         return channel;
     }

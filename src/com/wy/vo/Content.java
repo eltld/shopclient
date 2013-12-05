@@ -9,8 +9,11 @@ public class Content implements Serializable{
     private  static final long serialVersionUID = 2L;
     
     /**发送者名字*/
-    private String name;
+    private String sendName;
 
+    /**接受人姓名*/
+    private String receiveName;
+    
     /**发送日期*/
     private Date date;
 
@@ -20,12 +23,10 @@ public class Content implements Serializable{
     /**true:发送出去；false：接受*/
     private boolean isSendMsg;
 
-    /**0：群发；!=0:点对点*/
-    private int hashCode;
+    /**0：群发；!=0:点对点:目标channelId*/
+    private int receiveId;
 
-    public String getName() {
-        return name;
-    }
+    private int sendId;
 
     public Date getDate() {
         return date;
@@ -51,22 +52,43 @@ public class Content implements Serializable{
         this.isSendMsg = isSendMsg;
     }
 
-    public int getHashCode() {
-        return hashCode;
+
+    public String getSendName() {
+        return sendName;
     }
 
-    public void setHashCode(int hashCode) {
-        this.hashCode = hashCode;
+    public void setSendName(String sendName) {
+        this.sendName = sendName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getReceiveName() {
+        return receiveName;
+    }
+
+    public void setReceiveName(String receiveName) {
+        this.receiveName = receiveName;
+    }
+
+    public int getReceiveId() {
+        return receiveId;
+    }
+
+    public void setReceiveId(int receiveId) {
+        this.receiveId = receiveId;
+    }
+
+    public int getSendId() {
+        return sendId;
+    }
+
+    public void setSendId(int sendId) {
+        this.sendId = sendId;
     }
 
     @Override
     public String toString() {
-        return "Content [name=" + name + ", date=" + date + ", msg=" + msg + ", isSendMsg=" + isSendMsg + ", hashCode="
-                + hashCode + "]";
+        return "Content [sendName=" + sendName + ", receiveName=" + receiveName + ", date=" + date + ", msg=" + msg
+                + ", isSendMsg=" + isSendMsg + ", receiveId=" + receiveId + ", sendId=" + sendId + "]";
     }
 
 }

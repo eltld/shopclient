@@ -23,6 +23,8 @@ import android.widget.ListView;
 import com.wy.shopping.R;
 import com.wy.shopping.activity.BaseActivity;
 import com.wy.shopping.adapter.ChatAdapter;
+import com.wy.shopping.constant.Const;
+import com.wy.shopping.tasks.business.LoginTask;
 import com.wy.vo.Content;
 import com.wy.vo.User;
 
@@ -43,15 +45,17 @@ public class ChatSingleAct extends BaseActivity {
 
     private Channel channel;
 
-    private String ACTION_NAME="singleMsg";
-    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chat_detail);
         channel = LoginAct.getChannel();
         final User vo = (User) getVo("0");
+        final Content contentA = (Content) getVo("1");
         adapter = new ChatAdapter(new ArrayList<Content>(), activity);
+        if (contentA != null) {
+            adapter.addItem(contentA, 0);
+        }
         chatList.setAdapter(adapter);
         registerBoradcastReceiver(new msgBroadcastReceiver());
         sendBtn.setOnClickListener(new OnClickListener() {
@@ -62,20 +66,27 @@ public class ChatSingleAct extends BaseActivity {
                 content.setDate(new Date());
                 content.setMsg(input.getText().toString());
                 input.setText("");
-                content.setName("wangyi");
+                content.setSendName(LoginTask.SEND_NAME);
                 content.setSendMsg(true);
-                content.setHashCode(vo.getChannelId());
+                content.setSendId(channel.hashCode());
+                if (contentA != null) {
+                    content.setReceiveId(contentA.getSendId());
+                    content.setReceiveName(contentA.getSendName());
+                } else {
+                    content.setReceiveName(vo.getName());
+                    content.setReceiveId(vo.getChannelId());
+                }
                 lastWriteFuture = channel.writeAndFlush(content);
                 lastWriteFuture.addListener(new GenericFutureListener<Future<? super Void>>() {
                     @Override
                     public void operationComplete(Future<? super Void> future) throws Exception {
                         if (future.isSuccess()) {
                             ChatSingleAct.this.runOnUiThread(new Runnable() {
-                                
+
                                 @Override
                                 public void run() {
                                     adapter.addItem(content, adapter.getCount());
-                                    chatList.setSelection(adapter.getCount()-1);  
+                                    chatList.setSelection(adapter.getCount() - 1);
                                 }
                             });
                         }
@@ -84,24 +95,24 @@ public class ChatSingleAct extends BaseActivity {
             }
         });
     }
-   
-    class msgBroadcastReceiver extends BroadcastReceiver{
+
+    class msgBroadcastReceiver extends BroadcastReceiver {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            if(ACTION_NAME.equals(intent.getAction())){
+            if (Const.ACTION_SINGLE_BROADCAST.equals(intent.getAction())) {
                 Content content = (Content) intent.getSerializableExtra("msg");
                 adapter.addItem(content, adapter.getCount());
                 chatList.setSelection(adapter.getCount() - 1);
             }
         }
-        
+
     }
-    
-    public void registerBoradcastReceiver(BroadcastReceiver receiver){  
-        IntentFilter myIntentFilter = new IntentFilter();  
-        myIntentFilter.addAction(ACTION_NAME);  
-        //注册广播         
-        registerReceiver(receiver, myIntentFilter);  
-    }  
+
+    public void registerBoradcastReceiver(BroadcastReceiver receiver) {
+        IntentFilter myIntentFilter = new IntentFilter();
+        myIntentFilter.addAction(Const.ACTION_SINGLE_BROADCAST);
+        // 注册广播
+        registerReceiver(receiver, myIntentFilter);
+    }
 }

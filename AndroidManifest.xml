@@ -27,9 +27,11 @@
            />
         <activity  
             android:name="com.wy.chatclient.ChatAllAct"
+            android:launchMode="singleInstance"
            />
         <activity  
             android:name="com.wy.chatclient.ChatSingleAct"
+            android:launchMode="singleInstance"
            />
         <activity  
             android:name="com.wy.chatclient.LoginAct"

@@ -39,7 +39,7 @@ public class ChatAdapter extends SimpleAdapter<Content> {
         }
         if (item != null) {
             holder.msg.setText(item.getMsg());
-            holder.name.setText(item.getName());
+            holder.name.setText(item.getSendName());
         }
         return convertView;
     }

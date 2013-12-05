@@ -1,14 +1,5 @@
 package com.wy.chatclient;
 
-import io.netty.bootstrap.Bootstrap;
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelOption;
-import io.netty.channel.EventLoopGroup;
-import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.channel.socket.nio.NioSocketChannel;
-
-import java.net.ConnectException;
 import java.util.List;
 
 import net.tsz.afinal.annotation.view.ViewInject;
@@ -27,10 +18,10 @@ import android.widget.ListView;
 import com.wy.shopping.R;
 import com.wy.shopping.activity.BaseActivity;
 import com.wy.shopping.adapter.OnlineAdapter;
+import com.wy.shopping.constant.Const;
 import com.wy.vo.User;
 
 public class ChatMainAct extends BaseActivity {
-
 
     private Button send, close, start;
 
@@ -44,8 +35,6 @@ public class ChatMainAct extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chat_main);
-        List<User> data = (List<User>) getVo("0");
-        System.out.println(data.toString());
         adapter = new OnlineAdapter((List<User>) getVo("0"), this);
         onlineList.setAdapter(adapter);
         registerBoradcastReceiver(new UserOnlinReceiver());
@@ -57,7 +46,6 @@ public class ChatMainAct extends BaseActivity {
 
             @Override
             public void onClick(View v) {
-                
 
             }
         });
@@ -74,12 +62,6 @@ public class ChatMainAct extends BaseActivity {
 
             @Override
             public void onClick(View v) {
-                // channel.close().sync();
-//                group.shutdownGracefully();
-//                User user = new User();
-//                user.setName("xxx");
-////                user.setChannelId(channel.hashCode());
-//                skip(ChatSingleAct.class, user);
             }
         });
         onlineList.setOnItemClickListener(new OnItemClickListener() {
@@ -96,9 +78,22 @@ public class ChatMainAct extends BaseActivity {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            if ("online".equals(intent.getAction())) {
+            if (Const.ACTION_ON_OR_OFF_LINE.equals(intent.getAction())) {
                 User user = (User) intent.getSerializableExtra("user");
-                adapter.addItem(user, adapter.getCount());
+                // 上线
+                if (user.getName() != null) {
+                    adapter.addItem(user, adapter.getCount());
+                }
+                // 下线
+                else {
+                    List<User> onlineUsers = adapter.getDataSource();
+                    for (int i = 0; i < onlineUsers.size(); i++) {
+                        if (user.getChannelId() == onlineUsers.get(i).getChannelId()) {
+                            adapter.remove(onlineUsers.get(i));
+                            return;
+                        }
+                    }
+                }
             }
 
         }
@@ -107,7 +102,7 @@ public class ChatMainAct extends BaseActivity {
 
     public void registerBoradcastReceiver(BroadcastReceiver receiver) {
         IntentFilter myIntentFilter = new IntentFilter();
-        myIntentFilter.addAction("online");
+        myIntentFilter.addAction(Const.ACTION_ON_OR_OFF_LINE);
         // 注册广播
         registerReceiver(receiver, myIntentFilter);
     }

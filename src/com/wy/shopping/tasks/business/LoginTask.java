@@ -24,6 +24,8 @@ public class LoginTask extends BaseTask<Info, Void, ServiceResponse> {
     private LoginAct act;
     
     private Info logininfo;
+    
+    public static String SEND_NAME;
 
     public LoginTask(Context context) {
         super(context);
@@ -43,6 +45,7 @@ public class LoginTask extends BaseTask<Info, Void, ServiceResponse> {
     @Override
     public void doResult(ServiceResponse result) throws Exception {
         if (result.isSuccess()) {
+            SEND_NAME=logininfo.getName();
             List<User> data = Util.StringToList(result.getContent().toString());
             User myInfo=new User();
             myInfo.setChannelId(LoginAct.getChannel().hashCode());

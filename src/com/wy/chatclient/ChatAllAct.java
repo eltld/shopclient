@@ -23,6 +23,8 @@ import android.widget.ListView;
 import com.wy.shopping.R;
 import com.wy.shopping.activity.BaseActivity;
 import com.wy.shopping.adapter.ChatAdapter;
+import com.wy.shopping.constant.Const;
+import com.wy.shopping.tasks.business.LoginTask;
 import com.wy.vo.Content;
 
 public class ChatAllAct extends BaseActivity {
@@ -42,8 +44,6 @@ public class ChatAllAct extends BaseActivity {
 
     private Channel channel;
 
-    private String ACTION_NAME = "allmsg";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,9 +60,9 @@ public class ChatAllAct extends BaseActivity {
                 content.setDate(new Date());
                 content.setMsg(input.getText().toString());
                 input.setText("");
-                content.setName("wangyi");
+                content.setSendName(LoginTask.SEND_NAME);
                 content.setSendMsg(true);
-                content.setHashCode(0);
+                content.setReceiveId(0);
                 lastWriteFuture = channel.writeAndFlush(content);
                 lastWriteFuture.addListener(new GenericFutureListener<Future<? super Void>>() {
                     @Override
@@ -87,7 +87,7 @@ public class ChatAllAct extends BaseActivity {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (ACTION_NAME.equals(intent.getAction())) {
+            if (Const.ACTION_GROUP_BROADCAST.equals(intent.getAction())) {
                 Content content = (Content) intent.getSerializableExtra("msg");
                 adapter.addItem(content, adapter.getCount());
                 chatList.setSelection(adapter.getCount() - 1);
@@ -98,7 +98,7 @@ public class ChatAllAct extends BaseActivity {
 
     public void registerBoradcastReceiver(BroadcastReceiver receiver) {
         IntentFilter myIntentFilter = new IntentFilter();
-        myIntentFilter.addAction(ACTION_NAME);
+        myIntentFilter.addAction(Const.ACTION_GROUP_BROADCAST);
         // 注册广播
         registerReceiver(receiver, myIntentFilter);
     }
