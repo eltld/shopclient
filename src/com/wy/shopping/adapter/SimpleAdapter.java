@@ -15,10 +15,10 @@ public abstract class SimpleAdapter<E> extends BaseAdapter {
     protected List<E> data;
 
     protected Context context;
-    
+
     public SimpleAdapter(List<E> data, Context activity) {
         this.data = data;
-        this.context=activity;
+        this.context = activity;
     }
 
     @Override
@@ -86,6 +86,13 @@ public abstract class SimpleAdapter<E> extends BaseAdapter {
 
     public List<E> getDataSource() {
         return data;
+    }
+
+    public int getPosition(E e) {
+        if (!Util.isEmpty(data)) {
+            return data.indexOf(e);
+        }
+        return 0;
     }
 
     public View makeView(int layoutId) {

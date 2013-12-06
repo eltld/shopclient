@@ -44,17 +44,24 @@ public class ChatClientHandler extends SimpleChannelInboundHandler<Object> {
             Intent intent = new Intent();
             ActivityManager am = (ActivityManager) act.getSystemService(Context.ACTIVITY_SERVICE);
             ComponentName cn = am.getRunningTasks(1).get(0).topActivity;
+            //私聊消息
             if (content.getReceiveId() != 0) {
-                intent.setAction(Const.ACTION_SINGLE_BROADCAST);
                 if (!cn.getClassName().equals("com.wy.chatclient.ChatSingleAct")) {
-                    NotificationUtil.sendNotify(act, ChatSingleAct.class);
-                    // 构造一个user
+                 // 构造一个user
                     User u = new User();
                     u.setChannelId(content.getReceiveId());
                     u.setName(content.getReceiveName());
-                    ((LoginAct) act).skip(ChatSingleAct.class, u, content);
+                    if(!cn.getClassName().equals("com.wy.chatclient.ChatMainAct")){
+                        NotificationUtil.sendNotify(act, ChatSingleAct.class,u,content);
+                    }
+                    intent.setAction("mymsg");
+                    //指定接收消息者
+                    intent.putExtra("user", u);
+                }else{
+                    intent.setAction(Const.ACTION_SINGLE_BROADCAST);
                 }
             } else {
+                //群聊消息
                 intent.setAction(Const.ACTION_GROUP_BROADCAST);
                 if (cn.getClassName().equals("com.wy.chatclient.ChatAllAct")) {
                 }
@@ -65,7 +72,7 @@ public class ChatClientHandler extends SimpleChannelInboundHandler<Object> {
         if (msg instanceof User) {
             final User user = (User) msg;
             Intent intent = new Intent();
-            intent.setAction("online");
+            intent.setAction(Const.ACTION_ON_OR_OFF_LINE);
             intent.putExtra("user", user);
             act.sendBroadcast(intent);
         }

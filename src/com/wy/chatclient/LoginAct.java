@@ -94,17 +94,22 @@ public class LoginAct extends BaseActivity {
                             }).setPositiveButton("是",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog,int whichButton) {
-                                    User myInfo=new User();
-                                    myInfo.setChannelId(channel.hashCode());
-                                    myInfo.setName(null);
-                                    channel.writeAndFlush(myInfo).addListener(new GenericFutureListener<Future<? super Void>>() {
+                                    if(channel!=null){
+                                        User myInfo=new User();
+                                        myInfo.setChannelId(channel.hashCode());
+                                        myInfo.setName(null);
+                                        channel.writeAndFlush(myInfo).addListener(new GenericFutureListener<Future<? super Void>>() {
 
-                                        @Override
-                                        public void operationComplete(Future<? super Void> arg0) throws Exception {
-                                            channel.close().sync();
-                                            finish();
-                                        }
-                                    });
+                                            @Override
+                                            public void operationComplete(Future<? super Void> arg0) throws Exception {
+                                                channel.close().sync();
+                                                finish();
+                                            }
+                                        });
+                                    }else{
+                                        finish();
+                                    }
+                                   
                                 }
                             }).show();
             return true;
