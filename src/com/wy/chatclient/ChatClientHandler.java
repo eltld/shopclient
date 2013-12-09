@@ -51,12 +51,12 @@ public class ChatClientHandler extends SimpleChannelInboundHandler<Object> {
                     User u = new User();
                     u.setChannelId(content.getReceiveId());
                     u.setName(content.getReceiveName());
-                    if(!cn.getClassName().equals("com.wy.chatclient.ChatMainAct")){
-                        NotificationUtil.sendNotify(act, ChatSingleAct.class,u,content);
-                    }
                     intent.setAction("mymsg");
                     //指定接收消息者
                     intent.putExtra("user", u);
+                    if(!cn.getClassName().equals("com.wy.chatclient.ChatMainAct")){
+                        NotificationUtil.sendNotify(act, ChatSingleAct.class,u,content);
+                    }
                 }else{
                     intent.setAction(Const.ACTION_SINGLE_BROADCAST);
                 }

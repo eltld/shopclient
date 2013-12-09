@@ -15,7 +15,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -65,6 +64,7 @@ public class ChatSingleAct extends BaseActivity {
         if (msg != null) {
             adapter.addItem(msg, 0);
             ChatMainAct.receivedMsgs.remove(vo.getChannelId());
+            sendBroadcast(ChatSingleAct.this,msg);
         }
         chatList.setAdapter(adapter);
         registerBoradcastReceiver(new msgBroadcastReceiver());
@@ -129,5 +129,19 @@ public class ChatSingleAct extends BaseActivity {
         myIntentFilter.addAction(Const.ACTION_SINGLE_BROADCAST);
         // 注册广播
         registerReceiver(receiver, myIntentFilter);
+    }
+    
+    /**
+     * 	
+     *  @desc:发送广播到聊天列表界面，删除掉列表上显示的条数
+     *  @author WY  
+     *  创建时间 2013年12月9日 下午1:43:23
+     */
+    public void sendBroadcast(Context act, Content content){
+        Intent intent = new Intent ();
+        intent.setAction("123456");
+        intent.putExtra("content", content);
+        act.sendBroadcast(intent);
+        
     }
 }

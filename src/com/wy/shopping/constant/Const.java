@@ -13,4 +13,7 @@ public interface Const {
 
     /**上下线广播*/
     public static final String ACTION_ON_OR_OFF_LINE = "com.wy.chatclient.ChatMainAct";
+    
+    /***/
+    public static final String ACTION_NOTIFI_BROADCAST = "com.wy.chatclient.Notifi";
 }

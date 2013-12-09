@@ -53,6 +53,7 @@ public class ChatMainAct extends BaseActivity {
         }
         registerBoradcastReceiver(new UserOnlineReceiver());
         registerBoradcastMsg(new SingleChatReceiver());
+        registerNotifiReceiver(new notifiReceiver());
         send = (Button) findViewById(R.id.send);
         close = (Button) findViewById(R.id.close);
         start = (Button) findViewById(R.id.start);
@@ -139,7 +140,6 @@ public class ChatMainAct extends BaseActivity {
                         if (receivedMsgs.get(content.getSendId()).size() > 0) {
                             int position = adapter.getPosition(onlineUsers.get(i));
                             RelativeLayout rl = (RelativeLayout) onlineList.getChildAt(position);
-                            System.out.println(rl.getChildAt(1));
                             BadgeView tips = new BadgeView(ChatMainAct.this, rl.getChildAt(1));
                             tips.setText(receivedMsgs.get(content.getSendId()).size() + "");
                             tips.setBadgePosition(BadgeView.POSITION_TOP_RIGHT);
@@ -166,4 +166,36 @@ public class ChatMainAct extends BaseActivity {
         // 注册广播
         registerReceiver(receiver, myIntentFilter);
     }
+    
+    public void registerNotifiReceiver(BroadcastReceiver receiver) {
+        IntentFilter myIntentFilter = new IntentFilter();
+        myIntentFilter.addAction("123456");
+        // 注册广播
+        registerReceiver(receiver, myIntentFilter);
+    }
+    
+    class notifiReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if ("123456".equals(intent.getAction())) {
+                Content content = (Content) intent.getSerializableExtra("content");
+                List<Content> msgs = receivedMsgs.get(content.getSendId());
+                List<User> onlineUsers = adapter.getDataSource();
+                if (!Util.isEmpty(msgs)) {
+                    receivedMsgs.remove(content.getSendId());
+                    for (int i = 0; i < onlineUsers.size(); i++) {
+                        if(onlineUsers.get(i).getChannelId()==content.getSendId()){
+                            int position = adapter.getPosition(onlineUsers.get(i));
+                            RelativeLayout rl = (RelativeLayout) onlineList.getChildAt(position);
+                            View tipsView = rl.getChildAt(1);
+                            tipsView.setVisibility(View.GONE);
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+
 }

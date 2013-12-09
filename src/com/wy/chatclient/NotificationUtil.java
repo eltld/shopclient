@@ -19,12 +19,22 @@ public class NotificationUtil {
         n.flags = Notification.FLAG_AUTO_CANCEL;
         n.defaults = Notification.DEFAULT_ALL;
 
-        Intent i = new Intent(context, target);
-        i.putExtra("0", user);
-        i.putExtra("3", content);
-//        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-        PendingIntent pi = PendingIntent.getActivity(context, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
+        Intent intent = new Intent(context, target);
+        intent.putExtra("3", content);
+        intent.putExtra("0", user);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        PendingIntent pi = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         n.setLatestEventInfo(context, "收到新通知，请点击查看", "", pi);
+        
         nm.notify(R.string.app_name, n);
     }
+    
+    
+     public  void  sendBroadcast(Context act,Content content){
+         Intent intent = new Intent();
+         intent.putExtra("content",content );
+         intent.setAction("123456");
+         act.sendBroadcast(intent);
+    }
+
 }
